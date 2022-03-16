@@ -1,0 +1,404 @@
+$screen-desktop: 48em;
+
+@mixin desktop() {
+	@media (min-width: $screen-desktop) {
+		@content;
+	}
+}
+
+@mixin list-reset() {
+	margin: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+@mixin list-inline() {
+	> li {
+		display: inline-block;
+	}
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,900');
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 62.5%;
+	height: 100vh;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.4rem;
+	height: 100vh;
+	overflow: hidden;
+  margin: 0;
+}
+
+// SLIDER LAYOUT
+
+.slider {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	text-transform: uppercase;
+	background-color: #111;
+	color: #f8f8f8;
+	font-weight: 500;
+	position: relative;
+	background-color: rgba(0,0,0,0.75);
+	transition: background-color 1s;
+	
+	// &:hover {
+	// 	background-color: rgba(0,0,0,1);
+	// }
+		
+	a {
+		color: #f8f8f8;
+		text-decoration: none;
+	}
+}
+
+.slider__image {
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	background: url("https://wallpaperdownload.xyz/wp-content/uploads/2016/12/bathroom-wallpaper-ideas3.jpg");
+	background-size: cover;
+	background-position: 50% 50%;
+	z-index: -1;
+	transition: transform 7s linear;
+	
+	&.zoomed {
+		transform: scale(1.1);
+	}
+}
+
+.slider__head {
+	display: flex;
+	padding: 1rem;
+	@include desktop() {
+		padding: 2rem;
+	}
+}
+.slider__foot {
+	padding: 1rem;
+	text-transform: none;
+	font-weight: normal;
+	
+	@include desktop() {
+		display: flex;
+		padding: 2rem;
+	}
+}
+
+.slider__main {
+	flex-grow: 1;
+	display: flex;
+}
+
+.slider__content {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.slider__left,
+.slider__right {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.slider__left {
+	max-width: 6rem;
+}
+
+.slider__right {
+	@include desktop() {
+		max-width: 25%;
+	}
+}
+
+// SLIDER ELEMENTS
+
+// Loader
+
+.slider__loader-wrapper {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	display: block;
+	width: 50vw;
+	height: 0;
+	padding-bottom: 50vw * 7 / 8;
+	transition: all 0.25s ease;
+}
+
+.slider__loader {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	opacity: 0.5;
+}
+
+.slider__loader-block {
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	border-color: white;
+}
+
+.slider__loader-block--top-left { top: 0; left: 0; border: 0.2rem solid; border-bottom-width: 0.1rem; }
+.slider__loader-block--top-right { top: 0; right: 0; border: 0.2rem solid; border-left: none; border-bottom: none; }
+.slider__loader-block--bottom-left { bottom: 0; left: 0; border: 0.2rem solid; border-top-width: 0.1rem; }
+.slider__loader-block--bottom-right { bottom: 0; right: 0; }
+
+// Head
+
+.slider__logo {
+	flex-grow: 1;
+}
+
+.slider__navbar {
+	
+	> ul {
+		@include list-reset();
+		@include list-inline();
+		
+		> li {
+			
+			> a {
+				padding: 1rem;
+				margin-left: 1rem;
+			}
+		}
+	}
+}
+
+// Underlinks
+
+.underlink {
+	position: relative;
+	
+	&:after {
+		content: "";
+		position: absolute;	
+		bottom: 0;
+		left: 1rem;
+		width: 2rem;
+		height: 0.1rem;
+		background-color: white;
+		transition: all 0.25s cubic-bezier(0.5, -0.5, 0.5, 1.5);
+	}
+	
+	&:hover {
+		&:after {
+			width: calc(100% - 2 * 1rem);
+		}
+	}
+}
+
+// Content
+
+.link-vertical {
+	display: block;
+	padding: 0.5rem 1rem;
+	transform: rotateZ(-90deg);
+}
+
+// Title
+
+.slider__title-container {
+}
+
+.slider__title {
+	display: inline-block;
+	font-size: calc(2rem + 5vw);
+	padding: 2vw;
+	margin: 3vw;
+	font-weight: 900;
+	// border: 0.2rem solid;
+	position: relative;
+	transition: all 0.5s ease-in,
+		color 0.125s linear,
+		background-color 0.125s linear;
+
+	&:hover {
+		color: #111;
+		background-color: #fefefe;
+	}
+	
+	&:before,
+	&:after {
+		content: "";
+		position: absolute;
+		display: block;
+		border: 0.2rem solid white;
+	}
+	&:before {
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 0;
+		border-bottom-width: 0;
+		border-left-width: 0;
+	}
+	&:after {
+		bottom: 0;
+		right: 0;
+		width: 0;
+		height: 0;
+		border-top-width: 0;
+		border-right-width: 0;
+	}
+	
+	&.animated {
+		&:before {
+			animation: 1s 0.5s ease-in-out forwards borderDraw1;
+		}
+		&:after {
+			animation: 1s 0.5s ease-in-out forwards borderDraw2;
+		}
+	}
+}
+
+@keyframes borderDraw1 {
+	from { height: 0; width: 0; }
+	37.5% { height: 0; width: 100%; }
+	50% { height: 100%; width: 100%; }
+	to { height: 100%; width: 100%; }
+}
+
+@keyframes borderDraw2 {
+	from { height: 0; width: 0; }
+	50% { height: 0; width: 0; }
+	72.5% { height: 0; width: 100%; }
+	to { height: 100%; width: 100%; }
+}
+
+.slider__nav {
+	
+	> ul {
+		@include list-reset();
+		
+		> li {
+			min-height: 3rem;
+			line-height: 3rem;
+			margin: 1rem;
+			position: relative;
+			color: #888;
+			cursor: pointer;
+			text-align: right;
+			transition: all 0.25s;
+			
+			&:hover,
+			&.active {
+				color: #fefefe;
+			}
+			
+			@include desktop() {
+				min-height: 4rem;
+				line-height: 4rem;
+				padding-right: 8rem;
+				margin-right: 2rem;
+			}
+			
+			&:after,
+			&:before {
+				content: "";
+				position: absolute;
+				display: block;
+			}
+			&:after {
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 1.5rem;
+				height: 1.5rem;
+				border-radius: 50%;
+				border: 0.2rem solid;
+				transition: all 0.25s;
+				transition-property: border-radius, border-width, width, right;
+			}
+			&:before {
+				right: 2rem;
+				top: 50%;
+				width: 5rem;
+				height: 0.1rem;
+				border-top: 0.1rem solid;
+				display: none;
+				@include desktop() {
+					display: block;
+				}
+			}
+				
+			&.active {
+				&:after {
+					border-radius: 0;
+					border-width: 0.1rem;
+					width: 0;
+					right: 0.5rem;
+				}
+			}
+
+			> span {
+				line-height: 1;
+				display: none;
+				@include desktop() {
+					display: inline-block;
+				}
+			}
+		}
+	}
+}
+
+// Foot
+
+.slider__adress,
+.slider__copyright {
+	text-align: center;
+	font-size: 80%;
+	@include desktop() {
+		text-align: left;
+		flex-grow: 1;
+	}
+}
+
+.slider__copyright {
+	@include desktop() {
+		text-align: right;
+	}
+}
+
+// Loading
+
+.loading {
+	background-color: rgba(0,0,0,1);
+	
+	.slider__title {
+		opacity: 0;
+		transform: translateY(5vh);
+	}
+	
+	.slider__loader-wrapper {
+		width: 10vw;
+		padding-bottom: 10vw * 7 / 8;
+		animation: 1s ease infinite loading;
+	}
+
+	.slider__loader {
+		opacity: 1;
+	}
+}
+
+@keyframes loading {
+	from { transform: translate3d(-50%, -50%, 0) rotateZ(0); }
+	to { transform: translate3d(-50%, -50%, 0) rotateZ(360deg); }
+}

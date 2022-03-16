@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  
+  <title>Testing Slider</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+   <!-- Template Main CSS Files -->
+  <link href="slidercodepen.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  
+    <style class="INLINE_PEN_STYLESHEET_ID">
+        @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,900");
+    *, *:before, *:after {
+    box-sizing: border-box;
+    }
+
+    html {
+    font-size: 62.5%;
+    height: 100vh;
+    }
+
+    body {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.4rem;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    }
+
+    .slider {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-transform: uppercase;
+    background-color: #111;
+    color: #f8f8f8;
+    font-weight: 500;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.75);
+    transition: background-color 1s;
+    }
+    .slider a {
+    color: #f8f8f8;
+    text-decoration: none;
+    }
+
+    .slider__image.zoomed {
+    transform: scale(1.1);
+    }
+
+    .slider__head {
+    display: flex;
+    padding: 1rem;
+    }
+    @media (min-width: 48em) {
+    .slider__head {
+        padding: 2rem;
+    }
+    }
+
+    .slider__foot {
+    padding: 1rem;
+    text-transform: none;
+    font-weight: normal;
+    }
+    @media (min-width: 48em) {
+    .slider__foot {
+        display: flex;
+        padding: 2rem;
+    }
+    }
+
+    .slider__main {
+    flex-grow: 1;
+    display: flex;
+    }
+
+    .slider__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+
+    .slider__left,
+    .slider__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    }
+
+    .slider__left {
+    max-width: 6rem;
+    }
+
+    @media (min-width: 48em) {
+    .slider__right {
+        max-width: 25%;
+    }
+    }
+
+    .slider__loader-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    display: block;
+    width: 50vw;
+    height: 0;
+    padding-bottom: 43.75vw;
+    transition: all 0.25s ease;
+    }
+
+    .slider__loader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.5;
+    }
+
+    .slider__loader-block {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    border-color: white;
+    }
+
+    .slider__loader-block--top-left {
+    top: 0;
+    left: 0;
+    border: 0.2rem solid;
+    border-bottom-width: 0.1rem;
+    }
+
+    .slider__loader-block--top-right {
+    top: 0;
+    right: 0;
+    border: 0.2rem solid;
+    border-left: none;
+    border-bottom: none;
+    }
+
+    .slider__loader-block--bottom-left {
+    bottom: 0;
+    left: 0;
+    border: 0.2rem solid;
+    border-top-width: 0.1rem;
+    }
+
+    .slider__loader-block--bottom-right {
+    bottom: 0;
+    right: 0;
+    }
+
+    .slider__logo {
+    flex-grow: 1;
+    }
+
+    .slider__navbar > ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+    }
+    .slider__navbar > ul > li {
+    display: inline-block;
+    }
+    .slider__navbar > ul > li > a {
+    padding: 1rem;
+    margin-left: 1rem;
+    }
+
+    .underlink {
+    position: relative;
+    }
+    .underlink:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    width: 2rem;
+    height: 0.1rem;
+    background-color: white;
+    transition: all 0.25s cubic-bezier(0.5, -0.5, 0.5, 1.5);
+    }
+    .underlink:hover:after {
+    width: calc(100% - 2 * 1rem);
+    }
+
+    .link-vertical {
+    display: block;
+    padding: 0.5rem 1rem;
+    transform: rotateZ(-90deg);
+    }
+
+    .slider__title {
+    display: inline-block;
+    font-size: calc(2rem + 5vw);
+    padding: 2vw;
+    margin: 3vw;
+    font-weight: 900;
+    position: relative;
+    transition: all 0.5s ease-in, color 0.125s linear, background-color 0.125s linear;
+    }
+    .slider__title:hover {
+    color: #111;
+    background-color: #fefefe;
+    }
+    .slider__title:before, .slider__title:after {
+    content: "";
+    position: absolute;
+    display: block;
+    border: 0.2rem solid white;
+    }
+    .slider__title:before {
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    }
+    .slider__title:after {
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    }
+    .slider__title.animated:before {
+    -webkit-animation: 1s 0.5s ease-in-out forwards borderDraw1;
+            animation: 1s 0.5s ease-in-out forwards borderDraw1;
+    }
+    .slider__title.animated:after {
+    -webkit-animation: 1s 0.5s ease-in-out forwards borderDraw2;
+            animation: 1s 0.5s ease-in-out forwards borderDraw2;
+    }
+
+    @-webkit-keyframes borderDraw1 {
+    from {
+        height: 0;
+        width: 0;
+    }
+    37.5% {
+        height: 0;
+        width: 100%;
+    }
+    50% {
+        height: 100%;
+        width: 100%;
+    }
+    to {
+        height: 100%;
+        width: 100%;
+    }
+    }
+
+    @keyframes borderDraw1 {
+    from {
+        height: 0;
+        width: 0;
+    }
+    37.5% {
+        height: 0;
+        width: 100%;
+    }
+    50% {
+        height: 100%;
+        width: 100%;
+    }
+    to {
+        height: 100%;
+        width: 100%;
+    }
+    }
+    @-webkit-keyframes borderDraw2 {
+    from {
+        height: 0;
+        width: 0;
+    }
+    50% {
+        height: 0;
+        width: 0;
+    }
+    72.5% {
+        height: 0;
+        width: 100%;
+    }
+    to {
+        height: 100%;
+        width: 100%;
+    }
+    }
+    @keyframes borderDraw2 {
+    from {
+        height: 0;
+        width: 0;
+    }
+    50% {
+        height: 0;
+        width: 0;
+    }
+    72.5% {
+        height: 0;
+        width: 100%;
+    }
+    to {
+        height: 100%;
+        width: 100%;
+    }
+    }
+    .slider__nav > ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+    }
+    .slider__nav > ul > li {
+    min-height: 3rem;
+    line-height: 3rem;
+    margin: 1rem;
+    position: relative;
+    color: #888;
+    cursor: pointer;
+    text-align: right;
+    transition: all 0.25s;
+    }
+    .slider__nav > ul > li:hover, .slider__nav > ul > li.active {
+    color: #fefefe;
+    }
+    @media (min-width: 48em) {
+    .slider__nav > ul > li {
+        min-height: 4rem;
+        line-height: 4rem;
+        padding-right: 8rem;
+        margin-right: 2rem;
+    }
+    }
+    .slider__nav > ul > li:after, .slider__nav > ul > li:before {
+    content: "";
+    position: absolute;
+    display: block;
+    }
+    .slider__nav > ul > li:after {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: 0.2rem solid;
+    transition: all 0.25s;
+    transition-property: border-radius, border-width, width, right;
+    }
+    .slider__nav > ul > li:before {
+    right: 2rem;
+    top: 50%;
+    width: 5rem;
+    height: 0.1rem;
+    border-top: 0.1rem solid;
+    display: none;
+    }
+    @media (min-width: 48em) {
+    .slider__nav > ul > li:before {
+        display: block;
+    }
+    }
+    .slider__nav > ul > li.active:after {
+    border-radius: 0;
+    border-width: 0.1rem;
+    width: 0;
+    right: 0.5rem;
+    }
+    .slider__nav > ul > li > span {
+    line-height: 1;
+    display: none;
+    }
+    @media (min-width: 48em) {
+    .slider__nav > ul > li > span {
+        display: inline-block;
+    }
+    }
+
+    .slider__adress,
+    .slider__copyright {
+    text-align: center;
+    font-size: 80%;
+    }
+    @media (min-width: 48em) {
+    .slider__adress,
+    .slider__copyright {
+        text-align: left;
+        flex-grow: 1;
+    }
+    }
+
+    @media (min-width: 48em) {
+    .slider__copyright {
+        text-align: right;
+    }
+    }
+
+    .loading {
+    background-color: black;
+    }
+    .loading .slider__title {
+    opacity: 0;
+    transform: translateY(5vh);
+    }
+    .loading .slider__loader-wrapper {
+    width: 10vw;
+    padding-bottom: 8.75vw;
+    -webkit-animation: 1s ease infinite loading;
+            animation: 1s ease infinite loading;
+    }
+    .loading .slider__loader {
+    opacity: 1;
+    }
+
+    @-webkit-keyframes loading {
+    from {
+        transform: translate3d(-50%, -50%, 0) rotateZ(0);
+    }
+    to {
+        transform: translate3d(-50%, -50%, 0) rotateZ(360deg);
+    }
+    }
+
+    @keyframes loading {
+    from {
+        transform: translate3d(-50%, -50%, 0) rotateZ(0);
+    }
+    to {
+        transform: translate3d(-50%, -50%, 0) rotateZ(360deg);
+    }
+    }
+    </style>
+
+<script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeConsoleRunner-7549a40147ccd0ba0a6b5373d87e770e49bb4689f1c2dc30cccc7463f207f997.js"></script>
+<script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
+<script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRuntimeErrors-4f205f2c14e769b448bcf477de2938c681660d5038bc464e3700256713ebe261.js"></script>
+</head>
+
+
+<body>
+
+    <section class="slider">
+        <div class="slider__image"></div>
+        <div class="slider__loader-wrapper">
+            <div class="slider__loader">
+                <div class="slider__loader-block slider__loader-block--top-left"></div>
+                <div class="slider__loader-block slider__loader-block--top-right"></div>
+                <div class="slider__loader-block slider__loader-block--bottom-left"></div>
+                <div class="slider__loader-block slider__loader-block--bottom-right"></div>
+            </div>
+        </div>
+        <header class="slider__head">
+            <div class="slider__logo">Mu Designs</div>
+            <nav class="slider__navbar">
+                <ul>
+                    <li><a href="#" class="underlink">Store</a></li>
+                    <li><a href="#" class="underlink">Portfolio</a></li>
+                    <li><a href="#" class="underlink">Blog</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="slider__main">
+            <aside class="slider__left">
+                <a href="#" class="link-vertical underlink">New Arrivals</a>
+            </aside>
+            <div class="slider__content">
+                <div class="slider__title-container">
+                    <div class="slider__title">Mu Designs</div>
+                </div>
+            </div>
+            <aside class="slider__right">
+                <div class="slider__nav">
+                    <ul>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+        <footer class="slider__foot">
+            <div class="slider__adress">
+                Kahawa Wendani, Main Lane &mdash; Phone: 01&nbsp;23&nbsp;45&nbsp;76&nbsp;89
+            </div>
+            <div class="slider__copyright">Copyright 2022 Mu-Designs</div>
+        </footer>
+    </section>
+
+    <section>
+          <iframe height="600" style="width: 100%;" scrolling="no" title="Fullpage Slider Prototype" src="https://codepen.io/ardismu/embed/ExojzYg?default-tab=result" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+            See the Pen <a href="https://codepen.io/ardismu/pen/ExojzYg">
+            Fullpage Slider Prototype</a> by ardismu (<a href="https://codepen.io/ardismu">@ardismu</a>)
+            on <a href="https://codepen.io">CodePen</a>.
+          </iframe>
+
+    </section>
+
+      <!-- Template Main JS File -->
+     <script src="script.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>     
+     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <script src="https://cdpn.io/cpe/boomboom/pen.js?key=pen.js-c40182ea-5d8c-d185-dbe1-3fe9567fe6b2" crossorigin></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     
+</body>
+</html>
